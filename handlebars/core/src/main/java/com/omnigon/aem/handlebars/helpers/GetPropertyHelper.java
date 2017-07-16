@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * Created by daniil.sheidak on 21.10.2016.
  * This Handlebar's Helper class returns property value from specified context.
  * If name is not specified nothing should be returned.
  * If property with specified name is not exists nothing should be returned.

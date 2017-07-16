@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2017 Omnigon Communications, LLC. All rights reserved.
+ *
+ * This software is the confidential and proprietary information of Omnigon Communications, LLC
+ * ("Confidential Information"). You shall not disclose such Confidential Information and shall
+ * in accordance with the terms of the license agreement you entered into with Omnigon Communications, LLC, its
+ * subsidiaries, affiliates or authorized licensee. Unless required by applicable law or agreed to in writing, this
+ * Confidential Information is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the license agreement for the specific language governing permissions and limitations.
+ */
 package com.omnigon.aem.handlebars.helpers;
 
 import com.github.jknack.handlebars.Options;
@@ -8,8 +18,6 @@ import org.apache.felix.scr.annotations.Service;
 import java.io.IOException;
 
 /**
- * Created by Brenn Hill
- *
  * "is" renders content if a strictly equals to b.
  * In case of omitting b expression is true if a isn’t null, undefined, false, 0 or "".
  * Invocation as sub-expression (i.e. (helper ...) invocation) returns bool result.

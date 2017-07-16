@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Omnigon Communications, LLC. All rights reserved.
+ * Copyright (c) 2017 Omnigon Communications, LLC. All rights reserved.
  *
  * This software is the confidential and proprietary information of Omnigon Communications, LLC
  * ("Confidential Information"). You shall not disclose such Confidential Information and shall access and use it only
