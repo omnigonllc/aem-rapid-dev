@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/home/users/system" mode="merge" />
+    <filter root="/apps/omnigon/install" />
+    <filter root="/apps/omnigon">
+        <exclude pattern="/apps/omnigon/install" />
+    </filter>
+    <filter root="/etc/designs/omnigon" mode="update" />
+    <!-- TODO: rewrite filter to not depend on packages versions -->
+    <filter root="/etc/packages/adobe/consulting/acs-aem-commons-content-3.9.0.zip" />
+    <filter root="/etc/packages/com.omnigon.aem/cloudinary-apps-1.0-SNAPSHOT.zip" />
+    <filter root="/etc/packages/com.omnigon.aem/handlebars-apps-1.0-SNAPSHOT.zip" />
+    <filter root="/" mode="merge">
+        <include pattern="/rep:policy(/.*)?" />
+    </filter>
+</workspaceFilter>

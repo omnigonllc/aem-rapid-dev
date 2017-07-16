@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2015-04-02T16:32:29.837+03:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Remove DAM Images from Cloudinary"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <process
+                jcr:created="{Date}2015-04-02T16:27:46.929+03:00"
+                jcr:createdBy="admin"
+                jcr:description="This process will detect deletion of images from the DAM folder and delete the images to Cloudinary server."
+                jcr:lastModified="{Date}2015-04-02T16:32:29.802+03:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Cloudinary Remover"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.omnigon.aem.cloudinary.workflows.CloudinaryRemover"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+        </flow>
+        <model/>
+    </jcr:content>
+</jcr:root>

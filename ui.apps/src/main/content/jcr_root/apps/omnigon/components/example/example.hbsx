@@ -1,0 +1,6 @@
+{{#partial "content" }}
+    <p>Example Component</p>
+    <p>Parameter: {{param}}</p>
+{{/partial}}
+
+{{> omnigon/components/example/base param='Parameter Value'}}

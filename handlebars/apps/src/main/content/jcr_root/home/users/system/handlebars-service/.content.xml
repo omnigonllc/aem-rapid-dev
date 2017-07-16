@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
+    jcr:primaryType="rep:SystemUser"
+    jcr:uuid="3106f702-cc22-30d2-b3c3-3598c3ee1bd2"
+    rep:authorizableId="handlebars-service"
+    rep:principalName="handlebars-service"
+/>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/cloudinary/install" />
+    <filter root="/apps/cloudinary" >
+        <exclude pattern="/apps/cloudinary/install" />
+    </filter>
+    <filter root="/etc/workflow/launcher/config/dam-cloudinary-remove" mode="replace"/>
+    <filter root="/etc/workflow/launcher/config/dam-cloudinary-upload" mode="replace"/>
+    <filter root="/etc/workflow/launcher/config/dam-cloudinary-upload-modify" mode="replace"/>
+    <filter root="/etc/workflow/models/image-remove-from-cloudinary" mode="replace"/>
+    <filter root="/etc/workflow/models/image-upload-to-cloudinary" mode="replace"/>
+</workspaceFilter>
+

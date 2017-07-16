@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ |  Copyright 2015 Adobe Systems Incorporated
+ |
+ |  Licensed under the Apache License, Version 2.0 (the "License");
+ |  you may not use this file except in compliance with the License.
+ |  You may obtain a copy of the License at
+ |
+ |      http://www.apache.org/licenses/LICENSE-2.0
+ |
+ |  Unless required by applicable law or agreed to in writing, software
+ |  distributed under the License is distributed on an "AS IS" BASIS,
+ |  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ |  See the License for the specific language governing permissions and
+ |  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.omnigon.aem</groupId>
+    <artifactId>parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <description>Genericified AEM Project</description>
+    
+    <modules>
+        <module>commons</module>
+        <module>handlebars</module>
+        <module>cloudinary</module>
+        <module>main</module>
+        <module>ui.apps</module>
+        <module>ui.content</module>
+    </modules>
+
+    <properties>
+        <!-- Generic properties -->
+        <aem.author.host>localhost</aem.author.host>
+        <aem.author.port>4502</aem.author.port>
+        <aem.publish.host>localhost</aem.publish.host>
+        <aem.publish.port>4503</aem.publish.port>
+
+        <aem.author>http://${aem.author.host}:${aem.author.port}</aem.author>
+        <aem.publish>http://${aem.publish.host}:${aem.publish.port}</aem.publish>
+
+
+        <install.folder>/apps/omnigon/install</install.folder>
+        <!--
+            WebDAV: /crx/repository/crx.default/<target folder>
+            WebConsole: /system/console
+            NB: deployment via WebDAV requires ${install.folder} to exist, otherwise HTTP 404 returned
+        -->
+        <slingUrl.suffix>/crx/repository/crx.default${install.folder}</slingUrl.suffix>
+        <!-- Sling URL for bundle deployment -->
+        <slingUrl.author>${aem.author}${slingUrl.suffix}</slingUrl.author>
+        <slingUrl.publish>${aem.publish}${slingUrl.suffix}</slingUrl.publish>
+        <deploymentMethod>WebDAV</deploymentMethod> <!-- Default is WebConsole -->
+
+        <sling.user>admin</sling.user>
+        <sling.password>admin</sling.password>
+        <vault.user>admin</vault.user>
+        <vault.password>admin</vault.password>
+
+        <!-- Dependency Versions -->
+        <bndlib.version>2.3.0</bndlib.version>
+        <uber-jar.version>6.2.0</uber-jar.version>
+        <javax.inject.version>1</javax.inject.version>
+        <sling.models.version>1.2.2</sling.models.version>
+        <cq-wcm-taglib.version>5.7.4</cq-wcm-taglib.version>
+        <servlet-api.version>2.4</servlet-api.version>
+        <jsp-api.version>2.1</jsp-api.version>
+        <jcr.version>2.0</jcr.version>
+        <acs.version>3.9.0</acs.version>
+        <jackson.version>2.3.2</jackson.version>
+        <scr.version>2.0.2</scr.version>
+        <scr.annotations.version>1.11.0</scr.annotations.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
+        <httpcomponents.version>4.3.3</httpcomponents.version>
+        <slf4j-api.version>1.7.12</slf4j-api.version>
+        <jcl-over-slf4j.version>1.6.4</jcl-over-slf4j.version>
+        <slf4j-simple.version>1.5.11</slf4j-simple.version>
+        <mockito-all.version>1.9.5</mockito-all.version>
+        <junit.version>4.8.2</junit.version>
+        <junit-addons.version>1.4</junit-addons.version>
+
+        <!-- Plugin Versions -->
+        <cq-component-plugin.version>4.3.0</cq-component-plugin.version>
+        <maven-scr-plugin.version>1.24.0</maven-scr-plugin.version>
+        <maven-sling-plugin.version>2.2.0</maven-sling-plugin.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    </properties>
+
+    <!-- ====================================================================== -->
+    <!-- D E P E N D E N C I E S                                                -->
+    <!-- ====================================================================== -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- OSGi Dependencies -->
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr</artifactId>
+                <version>${scr.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr.annotations</artifactId>
+                <version>${scr.annotations.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bndlib</artifactId>
+                <version>${bndlib.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Apache Sling Dependencies -->
+            <dependency>
+                <groupId>com.adobe.aem</groupId>
+                <artifactId>uber-jar</artifactId>
+                <version>${uber-jar.version}</version>
+                <classifier>apis</classifier>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.models.api</artifactId>
+                <version>${sling.models.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- UPDATE (because of AEM 6.2, javax.inject is no longer a part of uber.jar) -->
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Servlet API -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${jsp-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Taglibs -->
+            <dependency>
+                <groupId>com.day.cq.wcm</groupId>
+                <artifactId>cq-wcm-taglib</artifactId>
+                <version>${cq-wcm-taglib.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- JCR -->
+            <dependency>
+                <groupId>javax.jcr</groupId>
+                <artifactId>jcr</artifactId>
+                <version>${jcr.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Adobe Consulting Services reusable components -->
+            <dependency>
+                <groupId>com.adobe.acs</groupId>
+                <artifactId>acs-aem-commons-content</artifactId>
+                <version>${acs.version}</version>
+                <type>content-package</type>
+            </dependency>
+            <dependency>
+                <groupId>com.adobe.acs</groupId>
+                <artifactId>acs-aem-commons-bundle</artifactId>
+                <version>${acs.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+
+            <!--  as AEM 6.2 provides 4.3.2 and 4.3.4 versions of them -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient-osgi</artifactId>
+                <version>${httpcomponents.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore-osgi</artifactId>
+                <version>${httpcomponents.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Logging Dependencies -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${jcl-over-slf4j.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Testing -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit-addons</groupId>
+                <artifactId>junit-addons</artifactId>
+                <version>${junit-addons.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito-all.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j-simple.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- ====================================================================== -->
+    <!-- B U I L D                                                              -->
+    <!-- ====================================================================== -->
+    <build>
+        <plugins>
+            <!-- Maven Release Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <scmCommentPrefix>[maven-scm] :</scmCommentPrefix>
+                    <preparationGoals>clean install</preparationGoals>
+                    <goals>install</goals>
+                    <releaseProfiles>release</releaseProfiles>
+                </configuration>
+            </plugin>
+            <!-- Maven Source Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <inherited>true</inherited>
+            </plugin>
+            <!-- Maven Resources Plugin -->
+            <!--
+                we want to keep some of the META-INF files and not configure
+                everything in the plugin (mainly the filters).
+                copy the resource explicitly instead of attaching it to the default resources
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <!-- ensure that the empty directories are copied -->
+                <configuration>
+                    <includeEmptyDirs>true</includeEmptyDirs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-metainf-vault-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/vault-work/META-INF</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/META-INF</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Maven Jar Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <!-- Maven Enforcer Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[2.2.1,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <message>Project must be compiled with Java 8 or higher</message>
+                                    <version>1.8.0</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <!-- ====================================================================== -->
+        <!-- P L U G I N  M A N A G E M E N T                                       -->
+        <!-- ====================================================================== -->
+        <pluginManagement>
+            <plugins>
+                <!-- Maven Clean Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.6.1</version>
+                </plugin>
+                <!-- Maven Resources Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+                <!-- Maven Compiler Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.1</version>
+                </plugin>
+                <!-- Apache Felix SCR Plugin -->
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>${maven-scr-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-scr-scrdescriptor</id>
+                            <goals>
+                                <goal>scr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <properties>
+                            <service.vendor>Omnigon</service.vendor>
+                        </properties>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.slf4j</groupId>
+                            <artifactId>slf4j-simple</artifactId>
+                            <version>${slf4j-simple.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <!-- Maven Installer Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+                <!-- Maven Surefire Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.18.1</version>
+                </plugin>
+                <!-- Maven Failsafe Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.18.1</version>
+                </plugin>
+                <!-- Maven Deploy Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+                <!-- Apache Sling Plugin -->
+                <plugin>
+                    <groupId>org.apache.sling</groupId>
+                    <artifactId>maven-sling-plugin</artifactId>
+                    <version>${maven-sling-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>install</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <deploymentMethod>${deploymentMethod}</deploymentMethod>
+                        <failOnError>true</failOnError>
+                    </configuration>
+                </plugin>
+
+                <!-- Content Package Plugin -->
+                <plugin>
+                    <groupId>com.day.jcr.vault</groupId>
+                    <artifactId>content-package-maven-plugin</artifactId>
+                    <version>0.5.1</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <filterSource>${basedir}/META-INF/vault/filter.xml</filterSource>
+                        <verbose>true</verbose>
+                        <failOnError>true</failOnError>
+                        <failOnMissingEmbed>true</failOnMissingEmbed>
+                    </configuration>
+                </plugin>
+
+                <!-- Apache Felix Bundle Plugin -->
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <inherited>true</inherited>
+                </plugin>
+                <!-- Maven Enforcer Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.4</version>
+                </plugin>
+                <!-- Maven Dependency Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.10</version>
+                </plugin>
+                <!-- Build Helper Maven Plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.9.1</version>
+                </plugin>
+                <!-- CQ Component Maven Plugin -->
+                <plugin>
+                    <groupId>com.citytechinc.cq.cq-component-plugin</groupId>
+                    <artifactId>cq-component-maven-plugin</artifactId>
+                    <version>${cq-component-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- ====================================================================== -->
+    <!-- P R O F I L E S                                                        -->
+    <!-- ====================================================================== -->
+    <profiles>
+        <!-- A U T H O R  P R O F I L E S-->
+        <profile>
+            <id>autoInstallPackage</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.day.jcr.vault</groupId>
+                        <artifactId>content-package-maven-plugin</artifactId>
+                        <configuration>
+                            <targetURL>${aem.author}/crx/packmgr/service.jsp</targetURL>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>autoInstallBundle</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>maven-sling-plugin</artifactId>
+                        <configuration>
+                            <slingUrl>${slingUrl.author}</slingUrl>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- P U B L I S H  P R O F I L E S-->
+        <profile>
+            <id>autoInstallPackagePublish</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.day.jcr.vault</groupId>
+                        <artifactId>content-package-maven-plugin</artifactId>
+                        <configuration>
+                            <targetURL>${aem.publish}/crx/packmgr/service.jsp</targetURL>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>autoInstallBundlePublish</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>maven-sling-plugin</artifactId>
+                        <configuration>
+                            <slingUrl>${slingUrl.author}</slingUrl>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <!-- ====================================================================== -->
+    <!-- R E P O S I T O R I E S                                                -->
+    <!-- ====================================================================== -->
+    <repositories>
+        <repository>
+            <id>adobe-public-releases</id>
+            <name>Adobe Basel Public Repository</name>
+            <url>http://repo.adobe.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>adobe-public-releases</id>
+            <name>Adobe Basel Public Repository</name>
+            <url>http://repo.adobe.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

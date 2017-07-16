@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+    <tlib-version>1.0</tlib-version>
+    <short-name>omni</short-name>
+    <uri>http://www.omnigon.com/cms/aem/tags</uri>
+
+
+    <tag>
+        <!--
+          Renders HTML 'img' tag.
+          If 'src' attribute starts with /content/dam and absoluteUrl is false - rewrites 'src' with dam cloudinary url.
+          If absoluteUrl is true - renders cloudinary url relative to src attribute.
+          This tag does not render empty attributes.
+          &lt;br/&gt;
+          for transformation attribute see
+          https://github.com/cloudinary/cloudinary_java/blob/master/cloudinary-core/src/main/java/com/cloudinary/Transformation.java
+          &lt;br/&gt;
+          example:
+          &lt;br/&gt;
+          &lt;pgatour-cloudinary:img class="some-class" src="/content/dam/image.jpg" alt="Some Image"
+          transformation="size=564x649,crop=pad,fetch_format=png"/&gt;
+        -->
+        <name>img</name>
+        <tag-class>com.omnigon.aem.cloudinary.taglib.CloudinaryImageTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>src</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>
+                comma separated values from
+                https://github.com/cloudinary/cloudinary_java/blob/master/cloudinary-core/src/main/java/com/cloudinary/Transformation.java
+                &lt;br/&gt;
+                example:
+                &lt;br/&gt;
+                size=564x649,crop=pad,fetch_format=png
+            </description>
+            <name>transformation</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>classes</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>
+                if this attribute is true - then src attribute will be treated as relative cloudinary url
+            </description>
+            <name>absoluteUrl</name>
+            <rtexprvalue>false</rtexprvalue>
+            <type>boolean</type>
+        </attribute>
+        <dynamic-attributes>true</dynamic-attributes>
+    </tag>
+    <tag>
+        <name>data-img</name>
+        <tag-class>com.omnigon.aem.cloudinary.taglib.CloudinaryDataImageTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>src</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>absolute</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <name>noCdn</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <name>classes</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>
+                if this attribute is true - then src attribute will be treated as relative cloudinary url
+            </description>
+            <name>absoluteUrl</name>
+            <rtexprvalue>false</rtexprvalue>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
+            <name>dataRadius</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>dataCrop</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <dynamic-attributes>true</dynamic-attributes>
+    </tag>
+
+    <function>
+        <!--removes /content/dam folder from path-->
+        <name>truncateDamFolder</name>
+        <function-class>com.omnigon.aem.cloudinary.CloudinaryFunctions</function-class>
+        <function-signature>java.lang.String truncateDamFolder(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <name>cloudinaryURL</name>
+        <function-class>com.omnigon.aem.cloudinary.CloudinaryFunctions</function-class>
+        <function-signature>java.lang.String cloudinaryURL(org.apache.sling.api.SlingHttpServletRequest,
+            java.lang.String)
+        </function-signature>
+    </function>
+
+</taglib>
